@@ -1,0 +1,53 @@
+#left-banner {
+	color: white;
+	height: 100%;
+	width: 300px;
+	left: 0px;
+	background-color: #414144;    
+	top: 0px;
+	position: fixed; 
+	text-align: center;
+	font-size: large;
+	float: left;
+}
+#main-content {
+	position: fixed;
+	width: 90%;
+	height: 100%;
+	left: 300px;
+	background-image:url('black-content-background.jpg');
+	background-color: white;
+	top: 0px;
+	text-align: center;
+	font-size: large;
+}
+#main-text {
+	position: absolute;
+	font-size: large;
+	color: white;
+	background-color: #414144;
+	left: 15%;
+	width: 70%;
+	margin-top: 30px;
+	margin-bottom: 30px;
+
+}
+#container {
+	width: 100%;
+	height: 100%;
+	background-color: #414144;
+}
+#social-banner {
+	left: 30%;
+	right: 70$;
+}
+#header-color {
+	color: white;
+}
+a {
+	text-decoration: none;
+	color: white;
+}
+a:hover {
+	color : #00B3FF ;
+}
