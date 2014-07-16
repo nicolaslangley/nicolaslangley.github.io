@@ -15,9 +15,9 @@ and what is required to get an application up and running within Chrome.
 - [NaCl Instance and OpenGL Setup](#instance_gl_setup)
 - [NaCl Threads and SwapBuffers](#naclthreads)
 - [NaCl File I/O](#naclfileio)
-- [Asset Management](#)
-- [Debugging and Logging](#)
-- [Converting to NaCl Chrome App](#)
+- [Asset Management](#assetman)
+- [Converting to NaCl Chrome App](#convertchromeapp)
+- [Debugging and Logging](#debuglog)
 
 #### <a id="pnaclvnacl"/> Native Client and Portable Native Client ####
 
@@ -250,7 +250,7 @@ the prototype:
 virtual bool Init(uint32_t argc, const char* argn[], const char* argv[])
 ```
 
-NaCl does not have allow direct access to the graphics context and in fact, there is no egl in NaCl. All of the graphics
+NaCl does not have allow direct access to the graphics context and in fact, there is no EGL in NaCl. All of the graphics
 setup is done using Google's PPAPI using a `pp::Graphics3D` object. In order to create the context and use OpenGL functions,
 you must include `ppapi/lib/gl/gles2/gl2ext_ppapi.h` and `ppapi/cpp/graphics_3d.h`. Within the GLB code, in `nacl_main.cpp`
 there is an `InitGL` function:
@@ -293,6 +293,53 @@ bool InitGL(int32_t new_width, int32_t new_height) {
 ```
 
 More information about setting up OpenGL in NaCl can be found [here](https://developer.chrome.com/native-client/devguide/coding/3D-graphics)
+
+The fact that there is no EGL present within NaCl (it is obscured by `pp::Graphics3D`) can cause trouble when dealing with
+a codebase that uses EGL. In order to handle this problem in the GLB example, I was forced to implement the EGL header and
+functions. This involved creating a `include\egl.h` file that specified the following EGL functions:
+
+```cpp
+// EGL function prototypes - to be overwritten using NaCl
+unsigned int eglGetConfigAttrib(void * display, void * config, unsigned int attribute, int * value);
+unsigned int eglGetConfigAttrib(void * display, void * config, unsigned int attribute, unsigned int * value);
+unsigned int eglGetConfigs(void * display, void ** configs, unsigned int config_size, unsigned int * num_config);
+char const * eglQueryString(void* display, unsigned int name);
+```
+
+These were then implemented (without full functionality) in order to not break the existing source code. Full functionality
+was not required because `pp::Graphics3D` effectively replaces EGL. The partial implementations are found below:
+
+```cpp
+#include <EGL/egl.h>
+#include "ppapi/lib/gl/gles2/gl2ext_ppapi.h"
+#include "ppapi\cpp\graphics_3d.h"
+#include "ppapi\c\ppb_graphics_3d.h"
+
+// Global Graphics3D context to be set to current context by main instance
+pp::Graphics3D egllib_context;
+
+// Override EGL functions using NaCl Graphics3D API
+// Handle both case where value is unsigned or signed
+unsigned int eglGetConfigAttrib(void * display, void * config, unsigned int attribute, unsigned int * value) {
+  return eglGetConfigAttrib( display, config, attribute, (int*)value);
+}
+
+unsigned int eglGetConfigAttrib(void * display, void * config, unsigned int attribute, int * value) {
+  int32_t attrib_list[] = {attribute, 0};
+  PP_Resource context = glGetCurrentContextPPAPI();
+  int32_t return_value = egllib_context.GetAttribs(attrib_list);
+  return (int) return_value;
+}
+
+// Does this need to be implemented or can we return dummy information?
+unsigned int eglGetConfigs(void * display, void ** configs, unsigned int config_size, unsigned int * num_config) {
+  return (int) 0;
+}
+
+char const * eglQueryString(    void* display, unsigned int name) {
+  return "";
+}
+```
 
 #### <a id="naclthreads"/> NaCl Threads and SwapBuffers ####
 
@@ -434,6 +481,193 @@ Once we have mounted the filesystem and initialized the `nacl_io` library, it is
 calls throughout the application. The only requirement is that these blocking calls cannot occur on the main Native Client
 thread. For details on this see [the threading section](#naclthreads)
 
+#### <a id="assetman"/> Asset Management ####
 
+If the program being ported as a large number of assets required, there are a couple of different options for obtaining them
+for use in your Native Client application. If you are able to host the required files on your own webserver, you can use
+the NaCl [URLLoader API](https://developer.chrome.com/native-client/pepper_stable/cpp/classpp_1_1_u_r_l_loader) to download
+them and save them to the HTML5 persistent storage. Details on how to do this can be found [here](https://developer.chrome.com/native-client/devguide/coding/url-loading)
 
+With the GLB example, I took a different approach. In order to read and write to files, they must be present in the HTML5
+persistent file storage that is mounted and used by the `nacl_io` library. Instead of loading and downloading URLs witin the
+Native Client module, I instead chose to load the HTML5 persistent filesystem and copy the relevant files within JavaScript
+as part of the webpage that hosts the Native Client module.
 
+In order to do this, I relied on the user specifying the location of the relevant asset files on their local machine.
+
+**Note:** After I detail more about how to package the application into a Chrome App, I will show how to bundle the assets
+so that no user input is required
+
+Chrome supports the `FileSystem API` (for more see [here](http://www.html5rocks.com/en/tutorials/file/filesystem/)) and this
+can be used to read and write files to HTML5 persistent storage.
+
+To present the user with the option of selecting a directory for uploading, you must add an input element to your HTML
+document.
+
+```html
+<input type="file" id="file_input" webkitdirectory="" directory=""/>
+```
+
+After adding a listener to this DOM element we can process the generated event and iterate through the selected files.
+The process of iterating through files and copying them from the user's file system to the HTML5 persistent storage requires
+a number of steps:
+
+1. Iterate through all of the selected files
+2. For each file download the file from the user's file system
+3. Create the directory housing the file within HTML5 persistent storage
+4. Save the file to HTML5 persistent storage
+
+These steps are done using 4 JavaScript functions
+
+- `handleFileSelect(evt)`
+    - Gets list of selected files
+    - Calls `handleFile(file)` to handle the first selected file
+- `handleFile(file)`
+    - If all files have been loaded, update HTML status and end
+    - Gets URL for specified file
+    - Checks that the file does not already exists in HTML5 persistent storage
+    - Calls `downloadFile(url, success)` with `saveFile(blob, path)` as callback
+- `downloadFile(url, success)`
+    - Create HTTP request for URL
+    - Download blob of URL and pass it to success callback
+- `saveFile(blob, path)`
+    - Splits path of blob into folders and creates them using `createDir(folders)` if they don't exist
+    - Create file and write blob to HTML5 persistent storage
+    - Call `handleFile(file)` for the next file in list of selected files
+
+The source for these files can be found [here](https://gist.github.com/nicolaslangley/8cecc8294d56d03bab3b)
+
+#### <a id="convertchromeapp"/> Converting to NaCl Chrome App ####
+
+In order to distribute and run your NaCl application outside of the development environment, it is required to package
+it as a Chrome Extension (Chrome App).
+
+Here are some useful links from Google about this process:
+
+- [Packaged Apps Overview](https://developer.chrome.com/extensions/apps)
+- [Distributing a NaCl App](https://developer.chrome.com/native-client/devguide/distributing)
+- [How to Package a Chrome App](https://developer.chrome.com/extensions/packaging)
+
+Here I will outline some of these steps as well as any changes that were required within the source by this process.
+
+The main addition that is required in order to create a packaged Chrome Application is the presence of a `manifest.json`
+file that outlines some details about your application. A detailed outline can be found [here](https://developer.chrome.com/extensions/manifest).
+
+The `manifest.json` file that I used was quite simple:
+
+```
+{
+  "manifest_version": 2,
+  "name": "GLBenchmark 2.7.0",
+  "version": "1.0",
+
+  "description": "Native Client Version of GLBenchmark",
+  "icons": {"128": "icon128.png"},
+  
+  "minimum_chrome_version": "28",
+  "offline_enabled": true,
+  
+  "permissions": [
+    "unlimitedStorage",
+    "storage"
+  ],
+  "app": {
+    "launch": {
+      "local_path": "index.html",
+      "container": "panel"
+    }
+  }
+}
+```
+
+The `"container"` property determines if the Chrome App launches in a new tab or it's own window.
+
+The other major change required by using a packaged app was the bundling of assets. In [the previous section](#assetman) I
+outlined how assets were copied based on user input. Since all of the data assets are included along with the Chrome App
+there is no need for any user input. The previous method was reliant on the `<input>` tag for the list of data files and
+there is no way to mimic an `<input>` tag programatically. Inorder to get a list of all of the asset files, I was forced to
+generate a textfile with a list of all of the filenames. This could then be loaded and parsed in the JavaScript to form a
+list of files. The updated JavaScript code can be found [here](https://gist.github.com/nicolaslangley/e290c1da767ea4056c7c).
+
+Here is a Python script used to generate a text file with all of the filenames stored in the `/data/` directory:
+
+```python
+import os
+curpath = os.getcwd();
+
+with open("filelist.txt", "w") as a:
+    for path, subdirs, files in os.walk(curpath):
+       for filename in files:
+         relpath = os.path.relpath(path, curpath); 
+         if relpath[:4] == "data":
+           f = os.path.join(relpath, filename)
+           a.write(str(f) + os.linesep)
+```
+
+You can then load Chrome and package your application into a `.crx` which can be distributed (see [link](https://developer.chrome.com/extensions/packaging) above) and installed by other Chrome users.
+
+#### <a id="debuglog"/> Debugging and Logging ####
+
+Debugging and logging in Chrome are covered extensively [here](https://developer.chrome.com/native-client/devguide/devcycle/debugging)
+but I will go into some detail about a couple of techniques that I used that were helpful in working on the GLB 
+example.
+
+The main way of debugging a NaCl app is to use either the included version of `nacl-gdb` that is bundled in the NaCl SDK.
+This can be launched within Visual Studio 2010 if the NaCl plugin is installed (see [Visual Studio section](#vs_tool)) or
+from the command line by launching Chrome with the `--enable-nacl-debug` flag and then running the `nacl-gdb` executable
+found in the NaCl SDK.
+
+This latter process can be made more seamless by loading a script that performs the setup detailed in the linked document
+above. This is done by using the `-x` flag with the name of the script as an argument when running nacl-gdb from the command
+line.
+
+The script I used was:
+
+```
+target remote localhost:4014
+nacl-manifest "GLBenchmark_2_7_0\projects\nacl\newlib\glbench_nacl_vs10.nmf"
+remote get irt .\irt.nexe
+nacl-irt .\irt.nexe
+```
+
+Where the `nacl-manifest` location denotes wherever the `.nmf` file is stored
+
+Within the code, and working with OpenGL code specifically, I found that a useful feature of GDB is the ability to
+dynamically call global functions while debugging. This is extremely useful for determining the output of `glGetError()` or
+`glGetString()` at runtime without having to add unnecessary calls within your code. I simply added the following global
+functions:
+
+```cpp
+// Global GL functions for debugging
+GLenum GetGLError() {
+  GLenum error = glGetError();
+  return error;
+}
+
+const GLubyte* GetGLString() {
+  const GLubyte* vendor = glGetString(GL_VENDOR);
+  return vendor;
+}
+```
+
+And used the GDB [`call`](https://sourceware.org/gdb/onlinedocs/gdb/Calling.html) function to retrieve the output while
+debugging.
+
+Logging within your Native Client code can be done by redirecting the `stdout` and `stderr` channels or by using the
+`PostMessage()` function within your code. However, `PostMessage()` is a member function of the current instance and so in
+order to be able to use `PostMessage()` outside of the instance I had to make a global reference to the instance and 
+access it in any other class or function to use `PostMessage()`. This is not as trivial as it sounds and requires passing
+an ID of the instance as a `PP_Instance` value.
+
+Within the instance class we have to retrieve the `PP_Instance` value:
+
+```cpp
+g_instance = this->pp_instance();
+```
+
+And within the class that we want to add access to `PostMessage()` in:
+
+```cpp
+pp::Instance cur_instance = pp::Instance(g_instance);
+cur_instance.PostMessage(...);
+```
