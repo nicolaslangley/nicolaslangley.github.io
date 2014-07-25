@@ -7,9 +7,12 @@ and what is required to get an application up and running within Chrome.
 
 #### Table of Contents ####
 
+### Setting up a NaCl Project ###
 - [Native Client and Portable Native Client](#pnaclvnacl)
 - [Native Client Application Structure](#naclappstruct)
 - [Visual Studio and Toolchain](#vs_tool)
+
+### Steps in Porting GLBenchmark ###
 - [GLBenchmark Application Outline](#glbappoutline)
 - [NaCl Messaging](#naclmessage)
 - [NaCl Instance and OpenGL Setup](#instance_gl_setup)
@@ -24,8 +27,8 @@ and what is required to get an application up and running within Chrome.
 As outlined [here](https://developer.chrome.com/native-client/nacl-and-pnacl) there is a distinction made between
 Portable Native Client (PNaCl) and Native Client (NaCl). The source code of the module does not vary between the two
 (although there are some restrictions in PNaCl) but there there are a number of differences regarding the toolchain.
-For this project, I have used the standard Native Client toolchain as (although Google suggests using PNaCl) the PNaCl
-toolchain is much less stable and less clearly documented.
+For this project, I have used the standard [Native Client toolchain](https://developer.chrome.com/native-client/devguide/devcycle/building#the-gnu-based-toolchains)
+as (although Google suggests using PNaCl) the PNaCl toolchain is much less stable and less clearly documented.
 
 #### <a id="naclappstruct"/> Native Client Application Structure ####
 
@@ -165,7 +168,26 @@ In addition, for each platform (i.e. Android, OSX, NaCl) that the application su
 code that includes the entry to the main loop and the main application loop itself. For the port of GLBenchmark, all of the
 `GLB::Application` code was left untouched and a new set of NaCl specific code was added. This code had to encompass all
 functionality outside of that provided by `GLB::Application`, namely setting up the application, handling input, initializing
-assets and communicating with the user.
+assets and communicating with the user. The directory structure of the GLB project is as follows:
+
+```
+GLBenchmark_2_7_0
+    - Frameworks
+    - Projects
+        - NaCl Project (VS, index.html, manifest) - this was modified
+        - Android Project
+        - Other projects (OSX, iOS, etc.)
+    - Source
+        - Application
+        - Common
+        - Platforms
+            - NaCl Source (nacl_main.cpp, etc.) - this was modified
+            - Android Source
+            - Other source (Linux, OSX, iOS, etc.)
+```
+
+The porting process involved re-writing the main application loop, entry point and re-using the existing `Common` and
+`Application` source as well as the `Frameworks` provided.
 
 #### <a id="naclmessage"/> NaCl Messaging ####
 
