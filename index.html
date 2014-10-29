@@ -2,27 +2,38 @@
 <html>
 <head>
 	<title> Nicolas Langley </title>
-	<link rel="stylesheet" type="text/css" href="style.css" media="screen" />
+	<link rel="stylesheet" href="style.css"/>
+    <link href="js/curtain.css" rel="stylesheet" />
+    <script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
+    <script src="js/curtain.js"></script>
+    <script src="js/scripts.js"></script>
 </head>
 
-<body>    
-    <div id="left-banner">
-    </br> <a href="index.html"> <img src="Assets/mcgill-headshot-ellipse.png" style="min-width:100;min-height:100;" /> </a>
-    <h1> <a href="index.html"> Nicolas Langley </a> </h1>
-    <a href="projects.html"> Projects </a> </br> </br>
-    <a href="aboutme.html"> About Me </a> </br> </br> </br> 
-    <div id="social-icons">
-        <a href="http://www.linkedin.com/pub/nicolas-langley/38/552/76"> <img src="Assets/linkedin-icon.png" width="48" height="48" alt="LinkedIn" /> </a>
-        <a href="http://www.facebook.com/nicolasqlangley"> <img src="Assets/facebook-icon.png" width="48" height="48" alt="Facebook" /> </a>
-    </div>
-    <div id="main-content">
-        <h1 id="header-color"> Welcome! </h1>
-        <div id="main-text">
-            <p> Take a look at some of my <a href="projects.html" style="text-decoration:underline;"> projects </a> </br>
-                or learn more <a href="aboutme.html" style="text-decoration:underline;"> about me. </a> </p>
-        </div>
-    </div>
-  </div>   
+<body>
+  <ul class="curtains">
+    <li id="golden-section">
+      <section id="golden">
+        <footer>
+          <ul>
+            <li><h1> Nicolas Langley </h1></li>
+            <li><a href="#mcgill-section">About Me</a></li>
+            <li><a href="#ucla-section">Projects</a></li>
+            <li><a href="http://github.com/nicolaslangley"><img src="assets/github_logo_white.png"></a></li>
+            <li><a href="ca.linkedin.com/pub/nicolas-langley/38/552/76/"><img src="assets/linkedin_logo_white.png"></a></li>
+          </ul>
+        </footer>
+      </section>
+    </li>
+    
+    <li id="mcgill-section">
+      <section id="mcgill">
+      </section>
+    </li>
+    <li id="ucla-section">
+      <section id="ucla">
+      </section>
+    </li>
+  </ul>
 </body>
 </html>
 

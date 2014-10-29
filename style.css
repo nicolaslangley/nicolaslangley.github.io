@@ -1,53 +1,64 @@
-#left-banner {
-	color: white;
-	height: 100%;
-	width: 300px;
-	left: 0px;
-	background-color: #414144;    
-	top: 0px;
-	position: fixed; 
-	text-align: center;
-	font-size: large;
-	float: left;
+/*Default background and font*/
+body {
+  font: 18px/30px Sans-serif;
+  background-color: #9C9C9C;
+  background-size: cover;
 }
-#main-content {
-	position: fixed;
-	width: 90%;
-	height: 100%;
-	left: 300px;
-	background-image:url('Assets/black-content-background.jpg');
-	background-color: white;
-	top: 0px;
-	text-align: center;
-	font-size: large;
-}
-#main-text {
-	position: absolute;
-	font-size: large;
-	color: white;
-	background-color: #414144;
-	left: 15%;
-	width: 70%;
-	margin-top: 30px;
-	margin-bottom: 30px;
 
+/*vh correspons to viewport height*/
+section {
+  overflow: hidden;
+  height: 100vh;
 }
-#container {
-	width: 100%;
-	height: 100%;
-	background-color: #414144;
+
+/*Golden Section*/
+#golden {
+  background: url("./assets/golden_view_bw.jpg");
+  background-size: cover;
 }
-#social-banner {
-	left: 30%;
-	right: 70$;
+#golden h1 {
+  margin: 0 auto;
+  font-weight: bold;
+  color: #fff; 
 }
-#header-color {
-	color: white;
+#golden footer {
+  position: absolute;
+  bottom: 10%;
+  width: 100%;
+/*  Applies a gradient to the background*/
+  background-color: rgba(0, 0, 0, .5);
 }
-a {
-	text-decoration: none;
-	color: white;
+#golden footer ul {
+  list-style: none;
+  width: 100%;
+  /*Margin and Padding set to 0 is required for fitting to image*/
+  margin: 0px;
+  padding: 0px; 
 }
-a:hover {
-	color : #00B3FF ;
+#golden footer ul li {
+  display: inline-block;
+  margin-right: 10%;
+}
+/*Resize footer logos to match text*/
+#golden footer img {
+  width: 25px;
+  height: 25px;
+  vertical-align: bottom;
+  margin-bottom: 5px;
+}
+#golden a {
+  color: #fff;
+  text-decoration: none;
+}
+
+/*McGill Section*/
+#mcgill {
+  background: url("./assets/mcgill_winter_bw.jpg");
+  background-size: cover;
+}
+
+/*UCLA Section*/
+#ucla {
+  background: url("./assets/ucla_campus_bw.jpg");
+  background-size: cover;
 }
