@@ -7,6 +7,10 @@ src: url("assets/fonts/nexa/Nexa Light.otf");
 font-family: 'nexa-bold';
 src: url("assets/fonts/nexa/Nexa Bold.otf");
 }
+@font-face {
+font-family: 'langdon';
+src: url("assets/fonts/langdon/Langdon.otf");
+}
 
 /*Default background and font*/
 body {
@@ -44,8 +48,9 @@ body {
   cursor: pointer;
   font-size: 30px;
   height: 45px;
+  font-family: langdon;
   line-height: 45px;
-  color: #B22222;
+  color: #fff;
   
 }
 
@@ -323,7 +328,7 @@ body {
 }
 
 .ucla {
-  background: url("./assets/images/ucla_campus.jpg");
+  background: url("./assets/images/ucla_campus_night.jpg");
   background-size: cover;
 }
 
@@ -335,13 +340,13 @@ body {
   background-color: rgba(0,0,0,0.0);
   padding-right:1%;
   padding-left:1%;
-  color: #B22222;
-  font-family: nexa-bold;
+  color: #fff;
+  font-family: Langdon;
 }
 
 .content-header#main-header {
   color: #fff;
-  background-color: rgba(0,0,0,0.4);
+  background-color: rgba(0,0,0,0.);
 }
 
 .content-text {
