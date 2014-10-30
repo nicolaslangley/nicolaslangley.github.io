@@ -1,64 +1,333 @@
 /*Default background and font*/
 body {
-  font: 18px/30px Sans-serif;
-  background-color: #9C9C9C;
-  background-size: cover;
-}
-
-/*vh correspons to viewport height*/
-section {
   overflow: hidden;
-  height: 100vh;
 }
 
-/*Golden Section*/
-#golden {
-  background: url("./assets/golden_view_bw.jpg");
-  background-size: cover;
-}
-#golden h1 {
-  margin: 0 auto;
-  font-weight: bold;
-  color: #fff; 
-}
-#golden footer {
+.main-container {
   position: absolute;
-  bottom: 10%;
   width: 100%;
-/*  Applies a gradient to the background*/
-  background-color: rgba(0, 0, 0, .5);
+  height: 100%;
+  top: 0;
+  left: 0;
+  font: 18px/30px Sans-serif;
 }
-#golden footer ul {
-  list-style: none;
-  width: 100%;
-  /*Margin and Padding set to 0 is required for fitting to image*/
-  margin: 0px;
-  padding: 0px; 
+
+/*Overlap the input and the link*/
+.main-container > input,
+.main-container > a {
+  position: fixed;
+  bottom: 0px;
+  width: 20%;
+  cursor: pointer;
+  font-size: 16px;
+  height: 34px;
+  line-height: 34px;
 }
-#golden footer ul li {
-  display: inline-block;
-  margin-right: 10%;
+/*Make the radio button invisible and on top of link*/
+.main-container > input {
+	opacity: 0;
+	z-index: 1000;
 }
-/*Resize footer logos to match text*/
-#golden footer img {
+/*Set specific properties of links*/
+.main-container > a {
+	z-index: 10;
+	font-weight: 700;
+	background: rgba(0, 0, 0, .4);
+	color: #fff;
+	text-align: center;
+    text-decoration: none;
+	text-shadow: 1px 1px 1px rgba(151,24,64,0.2);
+}
+/* "Fix" for percentage rounding: add a background bar pseudo element with the same color like the labels */
+.main-container:before {
+	content: '';
+	position: fixed;
+	width: 100%;
+	height: 34px;
+	background: rgba(0, 0, 0, .4);
+	z-index: 9;
+	bottom: 0;
+}
+
+/*Position the different controls*/
+#control-1, #control-1 + a {
+	left: 20%;
+}
+#control-2, #control-2 + a {
+	left: 40%;
+}
+#control-3, #control-3 + a {
+	left: 60%;
+}
+
+/*The home control is special*/
+.home {
+  font-size: 16px;
+  
+}
+
+/*Set "selected" state for link elements*/
+.main-container > input:checked + a,
+.main-container > input:checked:hover + a{
+	background: rgba(0, 0, 0, .7);
+}
+
+/*Define hover state for link element*/
+.main-container > input:hover + a{
+	background: rgba(0, 0, 0, .7);
+}
+.main-container > input:hover + a:after {
+	border-bottom-color: rgba(0, 0, 0, .7);
+}
+
+/*Set properties of scoll and panel*/
+.main-scroll,
+.panel {
+	position: relative;
+	width: 100%;
+	height: 100%;
+}
+
+/*Animate the transform property value to the correct position*/
+.main-scroll {
+	top: 0;
+	left: 0;
+	-webkit-transition: all 0.6s ease-in-out;
+	-moz-transition: all 0.6s ease-in-out;
+	-o-transition: all 0.6s ease-in-out;
+	-ms-transition: all 0.6s ease-in-out;
+	transition: all 0.6s ease-in-out;
+	
+	/* Let's enforce some hardware acceleration */
+	-webkit-transform: translate3d(0, 0, 0);
+	-webkit-backface-visibility: hidden;
+}
+
+/*Set the positions for the scroll rapper for each radio button*/
+#control-1:checked ~ .main-scroll {
+	-webkit-transform: translateY(0%);
+	-moz-transform: translateY(0%);
+	-o-transform: translateY(0%);
+	-ms-transform: translateY(0%);
+	transform: translateY(0%);
+}
+#control-2:checked ~ .main-scroll {
+	-webkit-transform: translateY(-100%);
+	-moz-transform: translateY(-100%);
+	-o-transform: translateY(-100%);
+	-ms-transform: translateY(-100%);
+	transform: translateY(-100%);
+}
+#control-3:checked ~ .main-scroll {
+	-webkit-transform: translateY(-200%);
+	-moz-transform: translateY(-200%);
+	-o-transform: translateY(-200%);
+	-ms-transform: translateY(-200%);
+	transform: translateY(-200%);
+}
+
+/*Heading placed in center of screen with negative margin for pull up effect*/
+.panel h2 {
+    color: #fff;
+    text-shadow: 1px 1px 1px rgba(151,24,64,0.2);
+    position: absolute;
+    font-size: 54px;
+    font-weight: 900;
+    width: 80%;
+    left: 10%;
+    background-color: rgb(0,0,0,0.3);
+    text-align: center;
+    line-height: 50px;
+    margin: -70px 0 0 0;
+    padding: 0;
+    top: 50%;
+    -webkit-backface-visibility: hidden;
+}
+
+/*Run an animation on the heading - uses general sibling combinator*/
+#control-1:checked ~ .main-scroll #golden-panel h2,
+#control-2:checked ~ .main-scroll #mcgill-panel h2,
+#control-3:checked ~ .main-scroll #ucla-panel h2 {
+	-webkit-animation: moveDown 0.6s ease-in-out 0.2s backwards;
+	-moz-animation: moveDown 0.6s ease-in-out 0.2s backwards;
+	-o-animation: moveDown 0.6s ease-in-out 0.2s backwards;
+	-ms-animation: moveDown 0.6s ease-in-out 0.2s backwards;
+	animation: moveDown 0.6s ease-in-out 0.2s backwards;
+}
+@-webkit-keyframes moveDown{
+	0% { 
+		-webkit-transform: translateY(-40px); 
+		opacity: 0;
+	}
+	100% { 
+		-webkit-transform: translateY(0px);  
+		opacity: 1;
+	}
+}
+
+@-moz-keyframes moveDown{
+	0% { 
+		-moz-transform: translateY(-40px); 
+		opacity: 0;
+	}
+	100% { 
+		-moz-transform: translateY(0px);  
+		opacity: 1;
+	}
+}
+
+@-o-keyframes moveDown{
+	0% { 
+		-o-transform: translateY(-40px); 
+		opacity: 0;
+	}
+	100% { 
+		-o-transform: translateY(0px);  
+		opacity: 1;
+	}
+}
+
+@-ms-keyframes moveDown{
+	0% { 
+		-ms-transform: translateY(-40px); 
+		opacity: 0;
+	}
+	100% { 
+		-ms-transform: translateY(0px);  
+		opacity: 1;
+	}
+}
+
+@keyframes moveDown{
+	0% { 
+		transform: translateY(-40px); 
+		opacity: 0;
+	}
+	100% { 
+		transform: translateY(0px);  
+		opacity: 1;
+	}
+}
+
+/*Set the paragraph also in the center*/
+.panel p {
+    position: absolute;
+    text-align: center;
+    font-size: 16px;
+    line-height: 22px;
+    color: #fff;
+    z-index: 2;
+    padding: 0;
+    width: 50%;
+    left: 25%;
+    top: 50%;
+    margin: 10px 0 0 0;
+    -webkit-backface-visibility: hidden;
+}
+
+/*Animations for paragraph on opening*/
+#control-1:checked ~ .main-scroll #golden-panel p,
+#control-2:checked ~ .main-scroll #mcgill-panel p,
+#control-3:checked ~ .main-scroll #ucla-panel p {
+	-webkit-animation: moveUp 0.6s ease-in-out 0.2s backwards;
+	-moz-animation: moveUp 0.6s ease-in-out 0.2s backwards;
+	-o-animation: moveUp 0.6s ease-in-out 0.2s backwards;
+	-ms-animation: moveUp 0.6s ease-in-out 0.2s backwards;
+	animation: moveUp 0.6s ease-in-out 0.2s backwards;
+}
+
+@-webkit-keyframes moveUp{
+	0% { 
+		-webkit-transform: translateY(40px); 
+		opacity: 0;
+	}
+	100% { 
+		-webkit-transform: translateY(0px);  
+		opacity: 1;
+	}
+}
+
+@-moz-keyframes moveUp{
+	0% { 
+		-moz-transform: translateY(40px); 
+		opacity: 0;
+	}
+	100% { 
+		-moz-transform: translateY(0px);  
+		opacity: 1;
+	}
+}
+
+@-o-keyframes moveUp{
+	0% { 
+		-o-transform: translateY(40px); 
+		opacity: 0;
+	}
+	100% { 
+		-o-transform: translateY(0px);  
+		opacity: 1;
+	}
+}
+
+@-ms-keyframes moveUp{
+	0% { 
+		-ms-transform: translateY(40px); 
+		opacity: 0;
+	}
+	100% { 
+		-ms-transform: translateY(0px);  
+		opacity: 1;
+	}
+}
+
+@keyframes moveUp{
+	0% { 
+		transform: translateY(40px); 
+		opacity: 0;
+	}
+	100% { 
+		transform: translateY(0px);  
+		opacity: 1;
+	}
+}
+
+/*Add specific backgrounds for the different panels*/
+.golden {
+  background: url("./assets/golden_view_bw.jpg");
+}
+
+.mcgill {
+  background: url("./assets/mcgill_winter_bw.jpg");
+}
+
+.ucla {
+  background: url("./assets/ucla_campus_bw.jpg");
+}
+
+#home-header {
+  color: #fff;
+}
+
+.content-header {
+  background-color: rgba(0,0,0,0.0);
+  padding-right:1%;
+  padding-left:1%;
+  color: #B22222;
+}
+
+.content-text {
+  background-color: rgba(0,0,0,0.4);
+  padding-right:1%;
+  padding-left:1%;
+  padding-top:1%;
+  padding-bottom:1%;
+  font-size: 20px;
+  color: #fff;
+}
+
+.logo-image {
   width: 25px;
   height: 25px;
   vertical-align: bottom;
-  margin-bottom: 5px;
-}
-#golden a {
-  color: #fff;
-  text-decoration: none;
-}
-
-/*McGill Section*/
-#mcgill {
-  background: url("./assets/mcgill_winter_bw.jpg");
-  background-size: cover;
-}
-
-/*UCLA Section*/
-#ucla {
-  background: url("./assets/ucla_campus_bw.jpg");
-  background-size: cover;
+  margin-bottom: 2px; 
 }

@@ -3,37 +3,35 @@
 <head>
 	<title> Nicolas Langley </title>
 	<link rel="stylesheet" href="style.css"/>
-    <link href="js/curtain.css" rel="stylesheet" />
-    <script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
-    <script src="js/curtain.js"></script>
-    <script src="js/scripts.js"></script>
 </head>
 
 <body>
-  <ul class="curtains">
-    <li id="golden-section">
-      <section id="golden">
-        <footer>
-          <ul>
-            <li><h1> Nicolas Langley </h1></li>
-            <li><a href="#mcgill-section">About Me</a></li>
-            <li><a href="#ucla-section">Projects</a></li>
-            <li><a href="http://github.com/nicolaslangley"><img src="assets/github_logo_white.png"></a></li>
-            <li><a href="ca.linkedin.com/pub/nicolas-langley/38/552/76/"><img src="assets/linkedin_logo_white.png"></a></li>
-          </ul>
-        </footer>
-      </section>
-    </li>
+  <div class="main-container">
     
-    <li id="mcgill-section">
-      <section id="mcgill">
+    <input type="radio" name="radio-set" id="control-1"/>
+    <a href="#golden-panel">Home</a>
+     
+    <input type="radio" name="radio-set" id="control-2"/>
+    <a href="#mcgill-panel">About Me</a>
+     
+    <input type="radio" name="radio-set" id="control-3"/>
+    <a href="#ucla-panel">Projects</a>
+  
+    <div class="main-scroll">
+      <section class="panel golden" id="golden-panel">
+        <div width="20%">
+          <h2> <span class="content-header" id="home-header">Nicolas Langley</span></h2>
+        </div>
       </section>
-    </li>
-    <li id="ucla-section">
-      <section id="ucla">
+      <section class="panel mcgill" id="mcgill-panel">
+        <h2> <span class="content-header">Who am I?</span> </h2>
+        <p><span class="content-text"> Learn more about me on LinkedIn <a class="p-link" href="https://www.linkedin.com/pub/nicolas-langley/38/552/76"><img class="logo-image" src="assets/linkedin_logo_white.png"></a></span></p>
       </section>
-    </li>
-  </ul>
+      <section class="panel ucla" id="ucla-panel">
+        <h2> <span class="content-header"> What have I done?</span> </h2>
+        <p> <span class="content-text"> Check me out on GitHub <a class="p-link" href="http://github.com/nicolaslangley"><img class="logo-image" src="assets/github_logo_white.png"></a></span> </p>
+      </section>
+    </div>
+  </div>
 </body>
 </html>
-
