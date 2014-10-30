@@ -9,7 +9,8 @@ body {
   height: 100%;
   top: 0;
   left: 0;
-  font: 18px/30px fantasy;
+  font-family: 'Arial Rounded MT Bold', 'Helvetica Rounded', Arial, sans-serif;
+  font: 18px/30px;
 }
 
 /*Overlap the input and the link*/
@@ -302,15 +303,18 @@ body {
 
 /*Add specific backgrounds for the different panels*/
 .golden {
-  background: url("./assets/golden_view_bw.jpg");
+  background: url("./assets/golden_view.jpg");
+  background-size: cover;
 }
 
 .mcgill {
-  background: url("./assets/mcgill_winter_bw.jpg");
+  background: url("./assets/mcgill_winter.jpg");
+  background-size: cover;
 }
 
 .ucla {
-  background: url("./assets/ucla_campus_bw.jpg");
+  background: url("./assets/ucla_campus.jpg");
+  background-size: cover;
 }
 
 #home-header {
@@ -322,6 +326,10 @@ body {
   padding-right:1%;
   padding-left:1%;
   color: #B22222;
+}
+
+.content-header#main-header {
+  color: #fff;
 }
 
 .content-text {
