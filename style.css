@@ -1,3 +1,13 @@
+/*Add custom font*/
+@font-face {
+font-family: 'nexa-light';
+src: url("assets/fonts/nexa/Nexa Light.otf");
+}
+@font-face {
+font-family: 'nexa-bold';
+src: url("assets/fonts/nexa/Nexa Bold.otf");
+}
+
 /*Default background and font*/
 body {
   overflow: hidden;
@@ -9,7 +19,7 @@ body {
   height: 100%;
   top: 0;
   left: 0;
-  font-family: 'Arial Rounded MT Bold', 'Helvetica Rounded', Arial, sans-serif;
+  font-family: nexa-light;
   font: 18px/30px;
 }
 
@@ -303,17 +313,17 @@ body {
 
 /*Add specific backgrounds for the different panels*/
 .golden {
-  background: url("./assets/golden_view.jpg");
+  background: url("./assets/images/golden_view.jpg");
   background-size: cover;
 }
 
 .mcgill {
-  background: url("./assets/mcgill_winter.jpg");
+  background: url("./assets/images/mcgill_winter.jpg");
   background-size: cover;
 }
 
 .ucla {
-  background: url("./assets/ucla_campus.jpg");
+  background: url("./assets/images/ucla_campus.jpg");
   background-size: cover;
 }
 
@@ -326,6 +336,7 @@ body {
   padding-right:1%;
   padding-left:1%;
   color: #B22222;
+  font-family: nexa-bold;
 }
 
 .content-header#main-header {
@@ -348,4 +359,9 @@ body {
   height: 25px;
   vertical-align: bottom;
   margin-bottom: 2px; 
+}
+
+.p-link {
+  color: #fff;
+  text-decoration: none;
 }
