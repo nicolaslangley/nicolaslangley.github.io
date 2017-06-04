@@ -1,0 +1,120 @@
+html,body{height:100%;}
+
+/* Custom font*/
+@font-face {
+    font-family: 'nexa-light';
+    src: url("../assets/fonts/nexa/Nexa Light.otf");
+}
+@font-face {
+    font-family: 'nexa-bold';
+    src: url("../assets/fonts/nexa/Nexa Bold.otf");
+}
+
+/* Bootstrap Overrides */
+.container{
+    padding-right:0;
+    padding-left:0;
+}
+.navbar {
+    position:absolute;
+    top:5%;
+    margin-left:5%;
+    z-index:10;
+    width:90%;
+}
+.navbar.navbar-inverse a {
+    font-family: nexa-bold;
+    color: white;
+}
+.navbar.navbar-inverse li a {
+    font-family: nexa-bold;
+    color: white;
+}
+.carousel {
+    data-interval: false;
+}
+.carousel,.item,.active {
+    height:100%;
+    position: relative;
+}
+.carousel-inner {
+    height:100%;
+    top:0;
+}
+
+
+/* Custom CSS */
+.large{
+    display: inline-block;
+}
+.small{
+    display: none;
+}
+.fill{
+    width: 100%;
+    height: 100%;
+    background-position: center;
+    background-size: contain;
+}
+.content {
+    position: relative;
+    text-align: center;
+    border-color: #080808;
+    background: #222;
+    opacity: 0.9;
+    margin-top: 10%;
+    margin-left: 10%;
+    width: 80%;
+    /*height: 80%;*/
+}
+.content h1 {
+    font-family: nexa-bold;
+    text-align: center;
+    color: white;
+}
+.content p {
+    font-family: nexa-light;
+    text-align: center;
+    color: white;
+}
+.content a {
+    font-family: nexa-light;
+    text-align: center;
+    color: white;
+}
+.logo-image {
+    width: 25px;
+    height: 25px;
+    vertical-align: bottom;
+    margin-bottom: 6px;
+}
+.home {
+    background: #000 url("../assets/images/golden_view.jpg") no-repeat center;
+}
+.about {
+    background: #000 url("../assets/images/mcgill_winter.jpg") no-repeat center;
+}
+.project {
+    background: #000 url("../assets/images/ucla_campus_night.jpg") no-repeat center;
+}
+
+/* Responsive CSS */
+@media screen and (max-width: 768px) {
+    .large{
+        display: none;
+    }
+    .small{
+        display: inline-block;
+    }
+    .content {
+        position: relative;
+        text-align: center;
+        border-color: #080808;
+        background: #222;
+        opacity: 0.9;
+        margin-top: 25%;
+        margin-left: 10%;
+        width: 80%;
+        height: 70%;
+    }
+}

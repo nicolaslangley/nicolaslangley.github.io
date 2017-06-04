@@ -1,48 +1,160 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title> Nicolas Langley </title>
-  <link rel="stylesheet" href="style.css"/>
-</head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
 
+    <title>Nicolas Langley</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="css/main.css" rel="stylesheet">
+</head>
 <body>
-  <div class="main-container">
-<!--    Menu along bottom -->
-    <input type="radio" name="radio-set" id="name"/>
-    <a href="#golden-panel" id="name">NICOLAS LANGLEY</a>
-     
-    <input type="radio" name="radio-set" id="control-2"/>
-    <a href="#mcgill-panel">About Me</a>
-     
-    <input type="radio" name="radio-set" id="control-3"/>
-    <a href="#ucla-panel">Projects</a>
-  
-<!--    Main display area -->
-    <div class="main-scroll">
-      <section class="panel golden" id="golden-panel">
-        <h2> <span class="content-header" id="main-header"></span> </h2>
-      </section>
-      <section class="panel mcgill" id="mcgill-panel">
-        <h2> <span class="content-header">WHO AM I?</span> </h2>
-        <p class="content-text">
-          I am a M.S. student in Computer Science at the University of California - Los Angeles. I received my B.S. in Computer Science at McGill University in Montreal, Quebec in 2014. <br><br>
-          I am passionate about Computer Science and am always looking to learn and explore new topics and areas. I am especially interested in Computer Graphics, Games and Natural Language Processing. <br><br>
-          When I'm not working, I play basketball, listen to music and enjoy a good video game. <br><br>
-          You can learn more about me on <a class="p-link" href="https://www.linkedin.com/pub/nicolas-langley/38/552/76">LinkedIn <img class="logo-image" src="assets/images/linkedin_logo_white.png"></a>
-        </p>
-      </section>
-      <section class="panel ucla" id="ucla-panel">
-        <h2> <span class="content-header"> WHAT HAVE I DONE?</span> </h2>
-        <p class="content-text"> Currently working on: <br><br>
-          <a class="p-link content-text" href="http://www.nicolaslangley.me/sonos-bar-osx/"><img class="logo-image" src="assets/images/sonos-bar-logo.png"> SonosBar</a><br>
-          OS X menubar application for controlling your Sonos speakers. Written using Node.js. <br><br>
-          <a class="p-link content-text" href="http://github.com/nicolaslangley/blackfoot-dictionary-ios"><img class="logo-image" src="assets/images/blackfootdict-icon.png"> Blackfoot Dictionary</a><br>
-          iOS application that provides a dictionary for the Blackfoot language and can translate between English and Blackfoot. Indigenous languages are
-          struggling to survive and I hope to be able to increase exposure and interest in Blackfoot. <br><br>
-          Check out my other projects on <a class="p-link" href="http://github.com/nicolaslangley">GitHub <img class="logo-image" src="assets/images/github_logo_white.png"></a> 
-        </p>
-      </section>
+
+<div class="container fill">
+    <div id="myCarousel" class="carousel slide">
+        <nav class="navbar navbar-inverse">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                            aria-expanded="false" aria-controls="navbar">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="#myCarousel" data-slide-to="0">Nicolas Langley</a>
+                </div>
+                <div id="navbar" class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav">
+                        <li><a class="active" href="#myCarousel" data-slide-to="1">About Me</a></li>
+                        <li><a href="#myCarousel" data-slide-to="2">Projects</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <div class="carousel-inner">
+            <div class="active item">
+                <div class="fill home">
+                    <div class="container">
+                    </div>
+                </div>
+            </div>
+            <div class="item">
+                <div class="fill about">
+                    <div class="container">
+                        <div class="jumbotron content">
+                            <h1 class="content-title">Who Am I?</h1>
+
+                            <p class="large">
+                                I am a M.S. student in Computer Science at the University of California - Los Angeles.
+                                I received my B.S. in Computer Science at McGill University in Montreal, Quebec in 2014.
+                                <br><br>
+                                I am passionate about Computer Science and am always looking to learn and explore new
+                                topics and areas.
+                                I am especially interested in Computer Graphics, Games and Natural Language Processing.
+                                <br><br>
+                                When I'm not working, I play basketball, listen to music and enjoy a good video game.
+                                <br><br>
+
+                                Learn more about me on
+                                <a href="https://www.linkedin.com/pub/nicolas-langley/38/552/76">
+                                    LinkedIn
+                                    <img class="logo-image" src="assets/images/linkedin_logo_white.png">
+                                </a>
+                            </p>
+                            <a class="small" href="https://www.linkedin.com/pub/nicolas-langley/38/552/76">
+                                <p style="text-align: center;">
+                                    <img class="logo-image" src="assets/images/linkedin_logo_white.png">
+                                    LinkedIn
+                                </p>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="item">
+                <div class="fill project">
+                    <div class="container">
+                        <div class="jumbotron content">
+                            <h1 class="content-title">What Have I Done?</h1>
+
+                            <p class="large">
+                                Currently working on:
+                                <br><br>
+                                <a href="http://nicolaslangley.github.io/sonos-bar-osx/">
+                                    <img class="logo-image" src="assets/images/sonos-bar-logo.png">
+                                    SonosBar
+                                </a><br>
+                                OS X menubar application for controlling your Sonos speakers. Written using Node.js.
+                                <br><br>
+                                <a href="http://github.com/nicolaslangley/blackfoot-dictionary-ios">
+                                    <img class="logo-image" src="assets/images/blackfootdict-icon.png">
+                                    Blackfoot Dictionary
+                                </a><br>
+                                iOS application that provides a dictionary for the Blackfoot language and can translate
+                                between English and Blackfoot. Indigenous languages are
+                                struggling to survive and I hope to be able to increase exposure and interest in
+                                Blackfoot. <br><br>
+                                Check out my other projects on
+                                <a href="http://github.com/nicolaslangley">
+                                    GitHub
+                                    <img class="logo-image" src="assets/images/github_logo_white.png">
+                                </a>
+                            </p>
+
+                            <div class="small">
+                                <p>Currently working on:</p>
+                                <br>
+                                <a href="http://www.nicolaslangley.me/sonos-bar-osx/">
+                                    <p style="text-align: center;">
+                                        <img class="logo-image" src="assets/images/sonos-bar-logo.png">
+                                        SonosBar
+                                    </p>
+                                </a>
+                                <br>
+                                <a href="http://github.com/nicolaslangley/blackfoot-dictionary-ios">
+                                    <p style="text-align: center;">
+                                        <img class="logo-image" src="assets/images/blackfootdict-icon.png">
+                                        Blackfoot Dictionary
+                                    </p>
+                                </a>
+                                <br>
+                                <a href="http://github.com/nicolaslangley">
+                                    <p style="text-align: center;">
+                                        <img class="logo-image" src="assets/images/github_logo_white.png">
+                                        GitHub
+                                    </p>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <ol class="carousel-indicators">
+                <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                <li data-target="#myCarousel" data-slide-to="1"></li>
+                <li data-target="#myCarousel" data-slide-to="2"></li>
+            </ol>
+        </div>
+        <div class="pull-center">
+            <a class="carousel-control left" href="#myCarousel" data-slide="prev">‹</a>
+            <a class="carousel-control right" href="#myCarousel" data-slide="next">›</a>
+        </div>
     </div>
-  </div>
+</div>
+
+<!-- Core Javascript -->
+<script src="js/jquery.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+
 </body>
 </html>

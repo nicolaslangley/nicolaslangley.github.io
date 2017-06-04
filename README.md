@@ -1,2 +1,0 @@
-Nicolas Langley Personal Website
-========================
