@@ -6,7 +6,34 @@
         <title>Personal Website</title>
     </head>
     <body>
-        <div id="app"></div>
+        <header class="bio-section">
+            <div class="container">
+                <img
+                    src="/images/headshot.jpg"
+                    alt="Professional headshot"
+                    class="headshot"
+                />
+                <div class="bio-content">
+                    <h1>Your Name</h1>
+                    <p class="bio-text">
+                        Your biography goes here. Share your interests, skills,
+                        and what drives you professionally. This is a great
+                        place to introduce yourself and give visitors a sense of
+                        who you are and what you do.
+                    </p>
+                </div>
+            </div>
+        </header>
+
+        <main>
+            <section class="projects-section">
+                <div class="container">
+                    <h2>Projects</h2>
+                    <div id="projects-grid" class="projects-grid"></div>
+                </div>
+            </section>
+        </main>
+
         <script type="module" src="/src/main.ts"></script>
     </body>
 </html>
