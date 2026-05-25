@@ -3,37 +3,21 @@ import "./style.css";
 interface Project {
   title: string;
   description: string;
-  image: string;
-  link: string;
+  image: string; // e.g. "/images/project1.jpg"
+  link: string; // e.g. "https://github.com/yourusername/project1"
 }
 
-const projects: Project[] = [
-  {
-    title: "Project One",
-    description:
-      "A brief description of your first project and what makes it interesting.",
-    image: "/images/project1.jpg",
-    link: "https://github.com/yourusername/project1",
-  },
-  {
-    title: "Project Two",
-    description:
-      "A brief description of your second project and its key features.",
-    image: "/images/project2.jpg",
-    link: "https://github.com/yourusername/project2",
-  },
-  {
-    title: "Project Three",
-    description:
-      "A brief description of your third project and what you built.",
-    image: "/images/project3.jpg",
-    link: "https://github.com/yourusername/project3",
-  },
-];
+const projects: Project[] = [];
 
 function renderProjects(): void {
+  const section = document.querySelector(".projects-section") as HTMLElement | null;
   const grid = document.getElementById("projects-grid");
-  if (!grid) return;
+  if (!section || !grid) return;
+
+  if (projects.length === 0) {
+    section.style.display = "none";
+    return;
+  }
 
   projects.forEach((project) => {
     const card = document.createElement("a");
