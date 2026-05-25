@@ -5,7 +5,7 @@
 }
 
 :root {
-    --bg-color: #ffffff;
+    --bg-color: #fafafa;
     --text-color: #1a1a1a;
     --text-secondary: #666;
     --border-color: #e5e5e5;
@@ -30,7 +30,7 @@ body {
 
 /* Bio Section */
 .bio-section {
-    padding: 4rem 0;
+    padding: 6rem 0;
     border-bottom: 1px solid var(--border-color);
 }
 
@@ -52,18 +52,40 @@ body {
 .bio-content h1 {
     font-size: 2.5rem;
     margin-bottom: 1rem;
-    font-weight: 600;
+    font-weight: 300;
 }
 
 .bio-text {
     font-size: 1.125rem;
     color: var(--text-secondary);
     line-height: 1.7;
+    max-width: 65ch;
+}
+
+.bio-links {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.25rem;
+}
+
+.bio-links a {
+    color: var(--text-secondary);
+    transition: color 0.2s ease;
+}
+
+.bio-links a:hover {
+    color: var(--text-color);
+}
+
+.bio-links svg {
+    width: 28px;
+    height: 28px;
+    display: block;
 }
 
 /* Projects Section */
 .projects-section {
-    padding: 4rem 0;
+    padding: 6rem 0;
 }
 
 .projects-section h2 {
@@ -80,7 +102,7 @@ body {
 
 .project-card {
     display: block;
-    background: var(--bg-color);
+    background: #ffffff;
     border: 1px solid var(--border-color);
     border-radius: 8px;
     overflow: hidden;
