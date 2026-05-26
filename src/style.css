@@ -159,6 +159,10 @@ body {
         font-size: 1rem;
     }
 
+    .bio-links {
+        justify-content: center;
+    }
+
     .projects-grid {
         grid-template-columns: 1fr;
     }
